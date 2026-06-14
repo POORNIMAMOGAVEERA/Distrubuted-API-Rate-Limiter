@@ -1,9 +1,9 @@
 package com.poornima.ratelimiter.domain.store;
 
-import com.poornima.ratelimiter.domain.model.WindowState;
+import com.poornima.ratelimiter.domain.model.RateLimitState;
 
 public interface RateLimitStore {
-    WindowState get(String key);
+    RateLimitState get(String key);
 
-    void put(String key, WindowState state);
+    void put(String key, RateLimitState state);
 }
