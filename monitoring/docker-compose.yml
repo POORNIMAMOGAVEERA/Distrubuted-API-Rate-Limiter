@@ -9,6 +9,7 @@ services:
 
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/alerts.yml:/etc/prometheus/alerts.yml
 
     restart: unless-stopped
 
@@ -25,5 +26,16 @@ services:
 
     depends_on:
       - prometheus
-      
+
     restart: unless-stopped
+
+  alertmanager:
+    image: prom/alertmanager
+
+    container_name: rate-limiter-alertmanager
+
+    ports:
+      - "9093:9093"
+
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml

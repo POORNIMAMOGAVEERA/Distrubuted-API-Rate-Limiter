@@ -1,0 +1,68 @@
+groups:
+  - name: rate-limiter-alerts
+
+    rules:
+
+      - alert: HighRejectionRate
+
+        expr: |
+          (
+            rate(requests_blocked_total[1m])
+            /
+            rate(requests_total[1m])
+          ) * 100 > 50
+
+        for: 2m
+
+        labels:
+          severity: warning
+
+        annotations:
+          summary: High rejection rate
+          description: More than 50% of requests are being blocked.
+
+      - alert: HighRedisLatency
+
+        expr: |
+          histogram_quantile(
+          0.95,
+          rate(redis_latency_seconds_bucket[5m])
+          ) > 0.050
+
+        for: 2m
+
+        labels:
+          severity: warning
+
+        annotations:
+          summary: Redis latency elevated  
+
+      - alert: HighDecisionLatency
+
+        expr: |
+          histogram_quantile(
+            0.95,
+            rate(
+              rate_limit_decision_latency_seconds_bucket[5m]
+            )
+          ) > 0.100
+
+        for: 2m
+
+        labels:
+          severity: warning
+
+        annotations:
+          summary: Decision latency elevated      
+
+      - alert: RateLimiterDown
+
+        expr: up{job="distributed-rate-limiter"} == 0
+
+        for: 1m
+
+        labels:
+          severity: critical
+
+        annotations:
+           summary: Rate limiter unavailable    
