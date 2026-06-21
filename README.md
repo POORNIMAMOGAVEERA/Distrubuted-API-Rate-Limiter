@@ -351,7 +351,7 @@ Provides:
 
 ---
 
-## Resume Highlights
+## Highlights
 
 * Designed and implemented a distributed rate limiting platform using Java, Spring Boot, Redis, and Docker supporting horizontal scalability and configurable traffic policies.
 * Built atomic rate limiting using Redis Lua scripts to ensure consistency under concurrent load.
